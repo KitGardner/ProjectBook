@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <title>Project Book</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <form onsubmit="app.projectController.createProject()">
+          <label for="projectName">Project Name</label>
+          <input name="projectName" type="text" required />
+          <label for="projectDescription">Project Description</label>
+          <input name="projectDescription" type="text" required>
+          <button type="submit">Create Project</button>
+        </form>
+        <div id="project-thumbnails">
+          <div>
+            <img src="http://placehold.it/100x100" alt="">
+            <h1>K</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-9">
+        <div id="project-details">
+        </div>
+      </div>
+    </div>
+    <script src="app/main.js" type="module"></script>
+  </div>
+</body>
+
+</html>
