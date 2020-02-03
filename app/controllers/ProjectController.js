@@ -31,20 +31,32 @@ function drawProjectDetails() {
       <label for="groupName">Group Name</label>
       <input type="text" name="groupName" required />
       <button type="submit">Add Group</button>
+      <label for="GroupColorPicker"></label>
+      <select name="GroupColorPicker" id="ColorPicker">
+        <option value="#EE0000">Red</option>
+        <option value="#0000EE">Blue</option>
+        <option value="#00EE00">Green</option>
+        <option value="#EEEE00">Yellow</option>
+        <option value="#EE00EE">Purple</option>
+        <option value="#EE9900">Orange</option>
+      </select>
     </form>
       Groups
       <ul>
         `
   project.groups.forEach(group => {
-    template += `<li>${group.name}</li>`
+    template += `<li style='color: ${group.color}'>${group.name}</li>`
   })
 
-  template += `</ul >
-  <div class="Contact-Card">
-    <img src="http://placehold.it/50x50" alt="">
-      <h3>Contact Name</h3>
-      <img src="http://placehold.it/50x50" alt="">
-    </div>
+  template += "</ul>"
+  project.contacts.forEach(contact => {
+    template += `<img src="http://placehold.it/50x50" alt="">
+      <h3>${contact.Name}</h3>
+      <img src="http://placehold.it/50x50" alt="">`
+  });
+
+
+  template += `<div class="Contact-Card"></div>
       <form onsubmit="app.projectController.addContact('${project.id}')">
         <label for="contactName">Contact Name</label>
         <input type="text" name="contactName" required />
@@ -52,8 +64,7 @@ function drawProjectDetails() {
         <input type="text" name="groupName" required />
         <button type="submit">Add Contact</button>
       </form>
-  </div>
-      `;
+  </div>`;
   document.getElementById("project-details").innerHTML = template;
 }
 
@@ -97,9 +108,25 @@ export class ProjectController {
     try {
       projectService.addGroup({
         name: form.groupName.value,
-        projectId: projectId
+        projectId: projectId,
+        color: form.GroupColorPicker.value
       })
       drawProjectDetails();
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  addContact(projectId) {
+    event.preventDefault();
+    let form = event.target;
+    try {
+      projectService.addContact({
+        Name: form.contactName.value,
+        projectId: projectId,
+        Group: form.groupName.value
+      });
+
     } catch (error) {
       alert(error);
     }
