@@ -6,29 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./app/main.css">
   <title>Project Book</title>
 </head>
 
 <body>
   <div class="container">
     <div class="row">
-      <div class="col-3">
-        <form onsubmit="app.projectController.createProject()">
-          <label for="projectName">Project Name</label>
-          <input name="projectName" type="text" required />
-          <label for="projectDescription">Project Description</label>
-          <input name="projectDescription" type="text" required>
-          <button type="submit">Create Project</button>
-        </form>
+      <div class="col-3 project-thumbnails">
         <div id="project-thumbnails">
-          <div>
-            <img src="http://placehold.it/100x100" alt="">
-            <h1>K</h1>
-          </div>
         </div>
+        <img src="http://placehold.it/100x100" alt="" onclick="app.projectController.showProjectForm()">
+        <p>New Project</p>
       </div>
       <div class="col-9">
-        <div id="project-details">
+        <div id="project-details" class="main-area content-area">
         </div>
       </div>
     </div>

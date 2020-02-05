@@ -1,0 +1,25 @@
+.project-thumbnails{
+  background-color: #7777FF;
+  height: 100vh;
+}
+
+.main-area{
+  background-color: lightgray;
+  height: 100vh;
+  margin: 0px -30px;
+}
+
+.content-area{
+  padding: 15px;
+}
+
+.groups{
+  display: inline;
+  list-style: none;
+}
+
+.groups>li{
+  display: inline;
+  margin-right: 10px;
+  padding: 0px 2px;
+}

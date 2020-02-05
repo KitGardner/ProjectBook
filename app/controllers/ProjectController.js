@@ -27,44 +27,52 @@ function drawProjectDetails() {
     <button>Contacts</button>
     <button>Tasks</button>
     <div id="PageContent">
-    <form onsubmit="app.projectController.addGroup('${project.id}')">
-      <label for="groupName">Group Name</label>
-      <input type="text" name="groupName" required />
-      <button type="submit">Add Group</button>
-      <label for="GroupColorPicker"></label>
-      <select name="GroupColorPicker" id="ColorPicker">
-        <option value="#EE0000">Red</option>
-        <option value="#0000EE">Blue</option>
-        <option value="#00EE00">Green</option>
-        <option value="#EEEE00">Yellow</option>
-        <option value="#EE00EE">Purple</option>
-        <option value="#EE9900">Orange</option>
-      </select>
-    </form>
       Groups
-      <ul>
+      <ul class='groups'>
         `
   project.groups.forEach(group => {
-    template += `<li style='color: ${group.color}'>${group.name}</li>`
+    template += `<li style='background-color: #${group.color}; color: white'>${group.name}</li>`
   })
 
-  template += "</ul>"
-  project.contacts.forEach(contact => {
-    template += `<img src="http://placehold.it/50x50" alt="">
-      <h3>${contact.Name}</h3>
-      <img src="http://placehold.it/50x50" alt="">`
-  });
+  template += `
+      <img src='https://placehold.it/50x50' onclick="app.projectController.showGroupForm()">
+      <form onsubmit="app.projectController.addGroup('${project.id}')" id='groupForm' hidden>
+      <label for="groupName">Group Name</label>
+      <input type="text" name="groupName" required />
+      <select name="GroupColorPicker" id="ColorPicker">
+        <option value="EE0000">Red</option>
+        <option value="0000EE">Blue</option>
+        <option value="00EE00">Green</option>
+        <option value="EEEE00">Yellow</option>
+        <option value="EE00EE">Purple</option>
+        <option value="EE9900">Orange</option>
+      </select>
+      <button type="submit">Add Group</button>
+      <label for="GroupColorPicker"></label>
+    </form>`
 
-
-  template += `<div class="Contact-Card"></div>
-      <form onsubmit="app.projectController.addContact('${project.id}')">
+  template += `</ul>
+  <p>Contacts</p>
+  <img src="https://placehold.it/50x50" onclick="app.projectController.showContactForm()">
+  <div>
+      <form onsubmit="app.projectController.addContact('${project.id}')" id="contactForm" hidden>
         <label for="contactName">Contact Name</label>
         <input type="text" name="contactName" required />
         <label for="groupName">Group Name</label>
         <input type="text" name="groupName" required />
         <button type="submit">Add Contact</button>
       </form>
-  </div>`;
+  </div>
+  `;
+  project.contacts.forEach(contact => {
+    template += `
+    <div style="background-color: white" class="d-flex justify-content-between align-items-center p-3 mt-2">
+      <img src="http://placehold.it/100x100" alt="">
+      <h3>${contact.Name}</h3>
+      <img src="http://placehold.it/100x100/${contact.Group.color}" alt="">
+    </div>`
+  });
+
   document.getElementById("project-details").innerHTML = template;
 }
 
@@ -76,6 +84,24 @@ export class ProjectController {
   }
 
   // Public Parts
+  showProjectForm() {
+    let template = `
+    <form onsubmit="app.projectController.createProject()">
+      <label for="projectName">Project Name</label>
+      <input name="projectName" type="text" required />
+      <label for="projectDescription">Project Description</label>
+      <input name="projectDescription" type="text" required>
+      <label for="email">Email</label>
+      <input type="text" name="email" required>
+      <label for="projectColor">Project Color</label>
+      <input type="text" name="projectColor">
+      <button type="submit">Create Project</button>
+    </form>
+    `;
+
+    document.getElementById("project-details").innerHTML = template;
+  }
+
   createProject() {
     event.preventDefault();
     let form = event.target;
@@ -102,6 +128,16 @@ export class ProjectController {
     }
   }
 
+  showGroupForm() {
+    let groupForm = document.getElementById("groupForm");
+
+    if (groupForm.hidden) {
+      groupForm.hidden = false;
+    } else {
+      groupForm.hidden = true;
+    }
+  }
+
   addGroup(projectId) {
     event.preventDefault();
     let form = event.target;
@@ -117,6 +153,16 @@ export class ProjectController {
     }
   }
 
+
+  showContactForm() {
+    let contactForm = document.getElementById("contactForm");
+
+    if (contactForm.hidden) {
+      contactForm.hidden = false;
+    } else {
+      contactForm.hidden = true;
+    }
+  }
   addContact(projectId) {
     event.preventDefault();
     let form = event.target;
@@ -126,7 +172,7 @@ export class ProjectController {
         projectId: projectId,
         Group: form.groupName.value
       });
-
+      drawProjectDetails();
     } catch (error) {
       alert(error);
     }
